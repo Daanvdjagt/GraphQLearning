@@ -1,40 +1,42 @@
 import graphene
 from graphene_django import DjangoObjectType
 from .models import *
-from graphene_django.filter import DjangoFilterConnectionField
-from graphql_relay.node.node import from_global_id  # for updating
+from django.contrib.auth import get_user_model
 
 
 
-class RoleNode(DjangoObjectType):
+class UserType(DjangoObjectType):
     class Meta:
-        model = Role
-        filter_fields = ['role_name']
-        interfaces = (graphene.relay.Node,)
-
-
-
+        model = get_user_model()
+        
 
 class Query(object):
-    role= graphene.relay.Node.Field(RoleNode)
-    all_roles = DjangoFilterConnectionField(RoleNode)
-    
-    user = graphene.relay.Node.Field(UserNode)
-    all_users = DjangoFilterConnectionField(UserNode)
+    users = graphene.List(UserType)
+    def resolve_users(self, info, **kwargs):
+        return get_user_model().objects.all()
 
-class CreateRole(graphene.relay.ClientIDMutation):
-    role = graphene.Field(RoleNode)
 
-    class Input:
-        role_name = graphene.String()
+   
+
+class CreateUser(graphene.Mutation):
+    user = graphene.Field(UserType)
+
+    class Arguments:
+        username = graphene.String(required =True)
+        password = graphene.String(required=True)
+        email = graphene.String(required= True)
     
-    def mutate_and_get_payload(self, info, **input):
-        role = Role(role_name=input.get('role_name'))
-        role.save()
-        return CreateRole(role=role)
+    def mutate(self, info, username, password, email):
+        user = get_user_model() (
+            username=username,
+            email=email,
+        )
+        user.set_password(password)
+        user.save()
+        return CreateUser(user=user)
 
 class Mutation(graphene.AbstractType):
-    create_role = CreateRole.Field()
+    create_user = CreateUser.Field()
   
 
 
