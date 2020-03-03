@@ -55,6 +55,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+GRAPHENE = {'SCHEMA': 'teambuilder.schema.schema',
+            'MIDDLEWARE': [
+                'graphql_jwt.middleware.JSONWebTokenMiddleware',
+            ],
+            }
+AUTHENTICATION_BACKENDS = [
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 ROOT_URLCONF = 'teambuilder.urls'
 
 TEMPLATES = [
@@ -125,8 +135,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-GRAPHENE = {'SCHEMA': 'teambuilder.schema.schema'
-            }
 
 CORS_ORIGIN_WHITELIST = [
     'https://localhost:8080'

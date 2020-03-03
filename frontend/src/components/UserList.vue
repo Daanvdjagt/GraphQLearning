@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-      <div v-for="user in this.users" v-bind:key="user.id">
-          <p>{{user.username}}</p>
-          </div>
+    <div v-for="user in this.users" v-bind:key="user.id">
+      <p>{{ user.username }}</p>
+    </div>
   </div>
 </template>
 
@@ -17,10 +17,10 @@ export default {
   async mounted() {
     try {
       var result = await axios({
-        method: 'POST',
-        url: 'http://127.0.0.1:8000/graphql/',
+        method: "POST",
+        url: "http://127.0.0.1:8000/graphql/",
         data: {
-          query:  `
+          query: `
 			{
                 users{
                     id
