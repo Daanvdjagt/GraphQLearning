@@ -27,6 +27,19 @@ class CreateUser(graphene.Mutation):
         return CreateUser(user=user)
 
 
+class DeleteUser(graphene.Mutation):
+    ok = graphene.Boolean()
+
+    class Arguments:
+        id = graphene.ID()
+
+    @classmethod
+    def mutate(cls, root, info, **kwargs):
+        obj = get_user_model().objects.get(pk=kwargs["id"])
+        obj.delete()
+        return cls(ok=True)
+
+
 class Query(object):
     users = graphene.List(UserType)
 
@@ -56,4 +69,6 @@ class Mutation(graphene.AbstractType):
     verify_token = graphql_jwt.Verify.Field()
     refresh_token = graphql_jwt.Refresh.Field()
     revoke_token = graphql_jwt.Revoke.Field()
+
     create_user = CreateUser.Field()
+    delete_user = DeleteUser.Field()
