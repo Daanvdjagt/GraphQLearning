@@ -19,19 +19,27 @@ class ScheduleAdmin(admin.ModelAdmin):
 
 
 class MatchAdmin(admin.ModelAdmin):
-    fields = ('match_type', 'team_a', 'team_b', 'event_id',)
+    fields = ('match_type', 'roster', 'enemy_team_name', 'event_id',)
 
 
 class RosterAdmin(admin.ModelAdmin):
-    pass
+    fields = ('feed_id', 'players')
 
 
 class PlayerAdmin(admin.ModelAdmin):
-    fields = ('player_role', 'player_name', 'roster_id')
+    fields = ('player_role', 'player_name')
 
 
 class PlayerRoleAdmin(admin.ModelAdmin):
     field = ('player_role')
+
+
+class TeamAdmin(admin.ModelAdmin):
+    field = ('team_name', 'roster_id',)
+
+
+class MatchTypeAdmin(admin.ModelAdmin):
+    field = ('match_type')
 
 
 admin.site.register(Feed, FeedAdmin)
@@ -42,3 +50,5 @@ admin.site.register(Match, MatchAdmin)
 admin.site.register(Roster, RosterAdmin)
 admin.site.register(Player, PlayerAdmin)
 admin.site.register(PlayerRole, PlayerRoleAdmin)
+admin.site.register(Team, TeamAdmin)
+admin.site.register(MatchType, MatchTypeAdmin)

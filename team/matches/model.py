@@ -1,15 +1,15 @@
 from django.db import models
 
 
+class MatchType(models.Model):
+    match_type = models.CharField(max_length=20, primary_key=True)
+
+
 class Match(models.Model):
-    MATCH_TYPE_CHOICES = (
-        (1, 'scrim'),
-        (2, 'match'),
-    )
-    match_type = models.PositiveSmallIntegerField(choices=MATCH_TYPE_CHOICES)
-    team_a = models.OneToOneField(
-        'Roster', to_field='id', related_name='team_a_id', on_delete=models.CASCADE, unique=True)
-    team_b = models.OneToOneField(
-        'Roster', to_field='id', related_name='team_b_id', on_delete=models.CASCADE, unique=True)
+    match_type = models.ForeignKey(
+        to='MatchType', to_field='match_type', on_delete=models.CASCADE)
+    roster = models.ForeignKey(
+        to='Roster', to_field='id', related_name='roster_id', on_delete=models.CASCADE)
+    enemy_team_name = models.CharField(max_length=50)
     event_id = models.OneToOneField(
         to='Event', to_field='id', related_name='event_id', on_delete=models.CASCADE, unique=True)
