@@ -12,3 +12,6 @@ class Team(models.Model):
     team_name = models.CharField(max_length=50)
     roster_id = models.OneToOneField(
         to='Roster', to_field='id', on_delete=models.CASCADE)
+
+    def hello():
+        print('Hello, how are you?')

@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "/home/daan/.local/share/virtualenvs/teambuilderbackend-HGSQsYKB/bin/python"
+    "python.pythonPath": "/Users/daanvanderjagt/.local/share/virtualenvs/GraphQLearning-tC1a16qO/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }
